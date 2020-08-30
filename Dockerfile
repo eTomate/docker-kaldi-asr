@@ -29,7 +29,8 @@ RUN mkdir -p /opt/kaldi && \
     git clone https://github.com/kaldi-asr/kaldi /opt/kaldi && \
     cd /opt/kaldi/tools
     
-RUN make -j${MAKE_JOBS} && \
+RUN cd /opt/kaldi/tools && \
+    make -j${MAKE_JOBS} && \
     ./install_portaudio.sh && \
     cd /opt/kaldi/src && \
     ./configure --shared && \
