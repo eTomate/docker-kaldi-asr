@@ -1,6 +1,6 @@
 FROM arm32v7/debian:8
 
-ARG MAKE_JOBS=2
+ARG MAKE_JOBS=1
 
 RUN apt-get update && apt-get install --no-install-recommends -y  \
     autoconf \
