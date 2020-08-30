@@ -33,12 +33,15 @@ RUN make -j${MAKE_JOBS} && \
     ./install_portaudio.sh && \
     cd /opt/kaldi/src && \
     ./configure --shared && \
-    sed -i '/-g # -O0 -DKALDI_PARANOID/c\-O3 -DNDEBUG' kaldi.mk
+    sed -i '/-g # -O0 -DKALDI_PARANOID/c\-O3 -DNDEBUG' kaldi.mk && \
+    ls
 
-RUN wget http://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.guess;hb=HEAD -O portaudio/ && \
+RUN cd /opt/kaldi/src && \
+    wget http://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.guess;hb=HEAD -O portaudio/ && \
     wget http://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.sub;hb=HEAD -O portaudio/
 
-RUN make -j${MAKE_JOBS} depend && \
+RUN cd /opt/kaldi/src && \
+    make -j${MAKE_JOBS} depend && \
     make -j${MAKE_JOBS} checkversion && \
     make -j${MAKE_JOBS} kaldi.mk && \
     make -j${MAKE_JOBS} mklibdir && \
