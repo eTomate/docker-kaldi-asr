@@ -29,6 +29,8 @@ RUN mkdir -p /opt/kaldi && \
     git clone https://github.com/kaldi-asr/kaldi /opt/kaldi && \
     cd /opt/kaldi/tools && \
     make -j${MAKE_JOBS} && \
+    wget http://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.guess;hb=HEAD && \
+    wget http://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.sub;hb=HEAD && \
     ./install_portaudio.sh && \
     cd /opt/kaldi/src && \
     ./configure --shared && \
