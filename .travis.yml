@@ -18,6 +18,6 @@ script:
 - >
   if [ "$TRAVIS_BRANCH" == "master" ] && [ "$TRAVIS_PULL_REQUEST" == "false" ]; then
     docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
-    docker tag chriswoj/docker-kaldi-asr chriswoj/kaldi-asr:0.1
-    docker push chriswoj/kaldi-asr:0.1
+    docker tag uptospace/docker-kaldi-asr chriswoj/kaldi-asr:0.1
+    docker push uptospace/kaldi-asr:0.1
   fi
