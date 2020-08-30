@@ -1,4 +1,4 @@
-FROM debian:8
+FROM arm32v7/debian:8
 
 ARG MAKE_JOBS=1
 
@@ -17,7 +17,10 @@ RUN apt-get update && apt-get install --no-install-recommends -y  \
     python-pip \
     subversion \
     wget \
-    zlib1g-dev && \
+    zlib1g-dev \
+    unzip \
+    sox \
+    gfortran && \
     apt-get clean && \
     apt-get autoclean && \
     apt-get autoremove -y
