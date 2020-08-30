@@ -27,15 +27,18 @@ RUN apt-get update && apt-get install --no-install-recommends -y  \
 
 RUN mkdir -p /opt/kaldi && \
     git clone https://github.com/kaldi-asr/kaldi /opt/kaldi && \
-    cd /opt/kaldi/tools && \
-    wget http://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.guess;hb=HEAD -O portaudio/ && \
-    wget http://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.sub;hb=HEAD -O portaudio/ && \
-    make -j${MAKE_JOBS} && \
+    cd /opt/kaldi/tools
+    
+RUN make -j${MAKE_JOBS} && \
     ./install_portaudio.sh && \
     cd /opt/kaldi/src && \
     ./configure --shared && \
-    sed -i '/-g # -O0 -DKALDI_PARANOID/c\-O3 -DNDEBUG' kaldi.mk && \
-    make -j${MAKE_JOBS} depend && \
+    sed -i '/-g # -O0 -DKALDI_PARANOID/c\-O3 -DNDEBUG' kaldi.mk
+
+RUN wget http://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.guess;hb=HEAD -O portaudio/ && \
+    wget http://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.sub;hb=HEAD -O portaudio/
+
+RUN make -j${MAKE_JOBS} depend && \
     make -j${MAKE_JOBS} checkversion && \
     make -j${MAKE_JOBS} kaldi.mk && \
     make -j${MAKE_JOBS} mklibdir && \
