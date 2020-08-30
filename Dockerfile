@@ -29,6 +29,11 @@ RUN mkdir -p /opt/kaldi && \
     git clone https://github.com/kaldi-asr/kaldi /opt/kaldi && \
     cd /opt/kaldi/tools
     
+RUN cd /opt/kaldi/src && \
+    mkdir portaudio && \
+    wget http://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.guess;hb=HEAD -O portaudio/ && \
+    wget http://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.sub;hb=HEAD -O portaudio/
+    
 RUN cd /opt/kaldi/tools && \
     make -j${MAKE_JOBS} && \
     ./install_portaudio.sh && \
@@ -36,10 +41,6 @@ RUN cd /opt/kaldi/tools && \
     ./configure --shared && \
     sed -i '/-g # -O0 -DKALDI_PARANOID/c\-O3 -DNDEBUG' kaldi.mk && \
     ls
-
-RUN cd /opt/kaldi/src && \
-    wget http://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.guess;hb=HEAD -O portaudio/ && \
-    wget http://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.sub;hb=HEAD -O portaudio/
 
 RUN cd /opt/kaldi/src && \
     make -j${MAKE_JOBS} depend && \
