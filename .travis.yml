@@ -13,7 +13,7 @@ script:
 # prepare qemu
 # - docker run --rm --privileged multiarch/qemu-user-static:register --reset
 # build image
-- travis_wait 120 sleep infinity & docker build -t chriswoj/docker-kaldi-asr .
+- travis_wait 30 docker build -t chriswoj/docker-kaldi-asr .
 # push image
 - >
   if [ "$TRAVIS_BRANCH" == "master" ] && [ "$TRAVIS_PULL_REQUEST" == "false" ]; then
