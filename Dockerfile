@@ -1,4 +1,4 @@
-FROM arm32v7/debian:8
+FROM resin/armv7hf-debian
 
 ARG MAKE_JOBS=4
 
