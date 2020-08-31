@@ -32,8 +32,8 @@ WORKDIR /opt/kaldi/tools
 RUN make -j${MAKE_JOBS} && \
     ./install_portaudio.sh
 
-WORKDIR /opt/kaldi/tools/extras
-RUN ./install_openblas.sh
+#WORKDIR /opt/kaldi/tools/extras
+#RUN ./install_openblas.sh
 
 WORKDIR /opt/kaldi/src
 RUN ./configure --shared && \
