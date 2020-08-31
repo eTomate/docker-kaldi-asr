@@ -26,19 +26,20 @@ RUN apt-get update && apt-get install --no-install-recommends -y  \
     apt-get autoremove -y
 
 RUN mkdir -p /opt/kaldi && \
-    git clone https://github.com/eTomate/kaldi /opt/kaldi && \
-    cd /opt/kaldi/tools
+    git clone https://github.com/eTomate/kaldi /opt/kaldi
     
-RUN cd /opt/kaldi/tools && \
-    make -j${MAKE_JOBS} && \
-    ./install_portaudio.sh && \
-    cd /opt/kaldi/src && \
-    ./configure --shared && \
-    sed -i '/-g # -O0 -DKALDI_PARANOID/c\-O3 -DNDEBUG' kaldi.mk && \
-    ls
+WORKDIR /opt/kaldi/tools    
+RUN make -j${MAKE_JOBS} && \
+    ./install_portaudio.sh
 
-RUN cd /opt/kaldi/src && \
-    make -j${MAKE_JOBS} depend && \
+WORKDIR /opt/kaldi/tools/extras
+RUN ./install_openblas.sh
+
+WORKDIR /opt/kaldi/src
+RUN ./configure --shared && \
+    sed -i '/-g # -O0 -DKALDI_PARANOID/c\-O3 -DNDEBUG' kaldi.mk
+
+RUN make -j${MAKE_JOBS} depend && \
     make -j${MAKE_JOBS} checkversion && \
     make -j${MAKE_JOBS} kaldi.mk && \
     make -j${MAKE_JOBS} mklibdir && \
@@ -48,8 +49,10 @@ RUN cd /opt/kaldi/src && \
 	fstext \
 	nnet3 \
 	online2 \
-	util && \
-    cd /opt/kaldi && git log -n1 > current-git-commit.txt && \
+	util
+	
+WORKDIR /opt/kaldi
+RUN git log -n1 > current-git-commit.txt && \
     rm -rf /opt/kaldi/.git && \
     rm -rf /opt/kaldi/egs/ /opt/kaldi/windows/ /opt/kaldi/misc/ && \
     find /opt/kaldi/src/ \
