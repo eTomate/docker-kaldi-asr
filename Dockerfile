@@ -26,13 +26,8 @@ RUN apt-get update && apt-get install --no-install-recommends -y  \
     apt-get autoremove -y
 
 RUN mkdir -p /opt/kaldi && \
-    git clone https://github.com/kaldi-asr/kaldi /opt/kaldi && \
+    git clone https://github.com/eTomate/kaldi /opt/kaldi && \
     cd /opt/kaldi/tools
-    
-RUN mkdir /opt/kaldi/tools/portaudio && \
-    cd /opt/kaldi/tools/ && \
-    wget -O config.guess http://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.guess;hb=HEAD  && \
-    wget -O config.sub http://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.sub;hb=HEAD 
     
 RUN cd /opt/kaldi/tools && \
     make -j${MAKE_JOBS} && \
