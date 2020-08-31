@@ -29,8 +29,8 @@ RUN mkdir -p /opt/kaldi && \
     git clone https://github.com/kaldi-asr/kaldi /opt/kaldi && \
     cd /opt/kaldi/tools
     
-RUN cd /opt/kaldi/src && \
-    mkdir portaudio && \
+RUN mkdir /opt/kaldi/tools/portaudio && \
+    cd /opt/kaldi/tools/ && \
     wget http://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.guess;hb=HEAD -O portaudio/config.guess && \
     wget http://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.sub;hb=HEAD -O portaudio/config.sub
     
