@@ -31,8 +31,8 @@ RUN mkdir -p /opt/kaldi && \
     
 RUN mkdir /opt/kaldi/tools/portaudio && \
     cd /opt/kaldi/tools/ && \
-    wget http://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.guess;hb=HEAD -O portaudio/config.guess && \
-    wget http://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.sub;hb=HEAD -O portaudio/config.sub
+    wget http://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.guess;hb=HEAD -O config.guess && \
+    wget http://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.sub;hb=HEAD -O config.sub
     
 RUN cd /opt/kaldi/tools && \
     make -j${MAKE_JOBS} && \
