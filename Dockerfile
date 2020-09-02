@@ -1,4 +1,4 @@
-FROM arm32v7/debian:8
+FROM resin/armv7hf-debian
 
 ARG MAKE_JOBS=4
 
@@ -26,14 +26,17 @@ RUN apt-get update && apt-get install --no-install-recommends -y  \
     apt-get autoremove -y
 
 RUN mkdir -p /opt/kaldi && \
-    git clone https://github.com/eTomate/kaldi /opt/kaldi
+    git clone https://github.com/kaldi-asr/kaldi.git /opt/kaldi
     
 WORKDIR /opt/kaldi/tools    
 RUN make -j${MAKE_JOBS} && \
     ./install_portaudio.sh
 
 WORKDIR /opt/kaldi/tools/extras
-RUN ./install_openblas.sh
+RUN wget -O install_openblas_armv7.sh https://gist.githubusercontent.com/eTomate/9797de29f5b81664ad5346e71839005c/raw/08923c7c73531f139baed292ddbf7c6f25901084/install_openblas_armv7.sh && chmod 777 install_openblas_armv7.sh
+
+WORKDIR /opt/kaldi/tools
+RUN ./extras/install_openblas_armv7.sh
 
 WORKDIR /opt/kaldi/src
 RUN ./configure --shared && \
