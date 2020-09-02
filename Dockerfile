@@ -32,8 +32,11 @@ WORKDIR /opt/kaldi/tools
 RUN make -j${MAKE_JOBS} && \
     ./install_portaudio.sh
 
-#WORKDIR /opt/kaldi/tools/extras
-#RUN ./install_openblas.sh
+WORKDIR /opt/kaldi/tools/extras
+RUN wget -O install_openblas_armv7.sh https://gist.githubusercontent.com/eTomate/9797de29f5b81664ad5346e71839005c/raw/08923c7c73531f139baed292ddbf7c6f25901084/install_openblas_armv7.sh && chmod 777 install_openblas_armv7.sh
+
+WORKDIR /opt/kaldi/tools
+RUN ./extras/install_openblas_armv7.sh
 
 WORKDIR /opt/kaldi/src
 RUN ./configure --shared && \
